@@ -1,0 +1,3 @@
+[submodule "macos-desktop2"]
+	path = macos-desktop2
+	url = https://github.com/bkowalk/macos-desktop
