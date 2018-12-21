@@ -13,4 +13,4 @@ curl -u mvn-installer:$MVN_INSTALL_PASS \
     -F path="/etc/packages/com.pluralsight.aem.packages/pluralsight-bundle-install-1.1-SNAPSHOT.zip" \
     -F cmd="activate" http://aem-staging-author1.vnerd.com:4502/bin/replicate.json
 
-./remove-target-dirs.sh
+$GIT_HOME/bash/remove-target-dirs

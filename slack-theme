@@ -67,7 +67,7 @@ MIDNIGHT_BLUE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/c
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js"
-BACKUP_FOLDER="$DIR/backup"
+BACKUP_FOLDER="$DIR/slack-backup"
 BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
 
 # exit if no argument is specified

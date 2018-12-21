@@ -4,7 +4,7 @@
 osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
 
 #https://www.tech-otaku.com/mac/setting-desktop-image-macos-mojave-from-command-line/
-/Users/bkowalk/Library/Scripts/macos-desktop/set-desktop-mojave.sh "/Users/bkowalk/Documents/Archive - Personal/2017/Wallpaper/starry-night.jpg"
+$GIT_HOME/bash/macos-desktop/set-desktop-mojave.sh "/Users/bkowalk/Documents/Archive - Personal/2017/Wallpaper/starry-night.jpg"
 
 #https://dev.to/changoman/easy-dark-mode-for-slack-1mmn
 #https://github.com/mykeels/slack-theme-cli (installed into library folder and then included on bash profile as PATH append)
