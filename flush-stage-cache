@@ -4,4 +4,4 @@ echo "Flushing SD1 Cache"
 ssh -t $NEW_SSH_USER@aem-staging-dispatcher1.vnerd.com \
     "sudo rm -rf /mnt/var/www/html/*"
 
-$GIT_HOME/bash/clear-cf-zone 52b2e79b15430d2b3561965d878594ea
+$GIT_HOME/bash/flush-cf-zone 52b2e79b15430d2b3561965d878594ea
