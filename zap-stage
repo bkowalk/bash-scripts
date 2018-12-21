@@ -2,4 +2,4 @@
 
 $GIT_HOME/bash/zap-stage-aem
 $GIT_HOME/bash/zap-stage-dispatcher
-$GIT_HOME/bash/flush-d-cache
+$GIT_HOME/bash/flush-stage-cache
