@@ -1,0 +1,193 @@
+#!/bin/bash
+#taken from https://github.com/mykeels/slack-theme-cli
+
+function show_usage() {
+echo "
+NAME
+     slack-theme
+
+SYNOPSIS
+     slack-theme
+     slack-theme day
+     slack-theme night
+     slack-theme night-mono
+     slack-theme aubergine
+     slack-theme aubergine-mono
+     slack-theme arc-dark
+     slack-theme midnight-blue
+     slack-theme midnight-blue-mono
+     slack-theme install
+     slack-theme uninstall
+
+DESCRIPTION
+     Change Slack Colors
+
+COMMANDS
+     day
+          Revert to Day Mode
+
+     night
+          Use Black CSS
+
+     night-mono
+          Use Night-Mono CSS
+
+     aubergine
+          Use Aubergine CSS
+
+     aubergine-mono
+          Use Aubergine-Mono CSS
+
+     arc-dark
+          Use Arc-Dark CSS
+
+     midnight-blue
+          Use Midnight-Blue CSS
+
+     midnight-blue-mono
+          Use Midnight-Blue-Mono CSS
+
+     install
+          Download necessary scripts
+
+     uninstall
+          Remove this tool from System
+
+Report any bugs to mykehell123@gmail.com
+"
+}
+
+ARC_DARK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/arc-dark.css"
+AUBERGINE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/aubergine.css"
+AUBERGINE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/aubergine-monospaced.css"
+BLACK_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/black.css"
+BLACK_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/black-monospaced.css"
+MIDNIGHT_BLUE_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue.css"
+MIDNIGHT_BLUE_MONO_PATH="https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/variants/midnight-blue-monospaced.css"
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+INTEROP_FILE="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js"
+BACKUP_FOLDER="$DIR/backup"
+BACKUP_FILE="$BACKUP_FOLDER/ssb-interop.js"
+
+# exit if no argument is specified
+if [ -z "$1" ]
+then
+    show_usage
+    exit 0
+fi
+
+# install
+if [ "$1" == "install" ]
+then
+    curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-day -O
+    curl https://raw.githubusercontent.com/mykeels/slack-theme-cli/master/slack-night -O
+    chmod 755 "$DIR/slack-theme"
+    chmod 755 "$DIR/slack-day"
+    chmod 755 "$DIR/slack-night"
+    if [ -z "$(cat ~/.bash_profile | grep "PATH=\$PATH:$PWD")" ]
+    then
+        echo "export PATH=\$PATH:$PWD" >> ~/.bash_profile
+    fi
+    echo "installed successfully"
+    exit 0
+fi
+
+# uninstall
+if [ "$1" == "uninstall" ]
+then
+    . "$DIR/slack-day"
+    rm "$DIR/slack-theme"
+    rm "$DIR/slack-day"
+    rm "$DIR/slack-night"
+    rm -rf "$BACKUP_FOLDER"
+    sed -i '' "/export PATH=\$PATH:${PWD//\//\\/}/g" ~/.bash_profile
+    echo "uninstalled successfully"
+    exit 0
+fi
+
+if [ "$1" == "day" ]
+then
+    . "$DIR/slack-day"
+    exit 0
+fi
+
+if [ "$1" == "night" ]
+then
+    CSS_PATH="$BLACK_PATH"
+fi
+
+if [ "$1" == "night-mono" ]
+then
+    CSS_PATH="$BLACK_MONO_PATH"
+fi
+
+if [ "$1" == "aubergine" ]
+then
+    CSS_PATH="$AUBERGINE_PATH"
+fi
+
+if [ "$1" == "aubergine-mono" ]
+then
+    CSS_PATH="$AUBERGINE_MONO_PATH"
+fi
+
+if [ "$1" == "arc-dark" ]
+then
+    CSS_PATH="$ARC_DARK_PATH"
+fi
+
+if [ "$1" == "midnight-blue" ]
+then
+    CSS_PATH="$MIDNIGHT_BLUE_PATH"
+fi
+
+if [ "$1" == "midnight-blue-mono" ]
+then
+    CSS_PATH="$MIDNIGHT_BLUE_MONO_PATH"
+fi
+
+if [ -z "$CSS_PATH" ]
+then
+    echo "invalid command"
+    exit 1
+fi
+
+NODE_SCRIPT="
+document.addEventListener('DOMContentLoaded', function() {
+ $.ajax({
+   url: '$CSS_PATH',
+   success: function(css) {
+     let overrides = \`
+     code { background-color: #535353; color: #85c5ff; } /* Change color: to whatever font color you want */
+     .c-mrkdwn__pre, .c-mrkdwn__quote { background: #535353 !important; background-color: #535353 !important; }
+     \`
+     \$('<style></style>').appendTo('head').html(css + overrides);
+   }
+ });
+});
+"
+
+if [ -f "$INTEROP_FILE" ]
+then
+    mkdir -p "$DIR/backup" # create folder if it does not exist
+    if [ -z "$(cat "$INTEROP_FILE" | grep "DOMContentLoaded")" ]
+    then
+        cp "$INTEROP_FILE" "$BACKUP_FOLDER" # copy file as backup
+    else
+        if [ -f "$BACKUP_FILE" ]
+        then
+            cp "$BACKUP_FILE" "$INTEROP_FILE"
+        else
+            echo "backup file not found"
+            exit 1
+        fi
+    fi
+    echo "$NODE_SCRIPT" >> "$INTEROP_FILE" # append script to file
+    
+    # restart slack
+    killall "Slack" > /dev/null # kill all slack processes
+    /Applications/Slack.app/Contents/MacOS/Slack </dev/null &>/dev/null & # start slack process in detached mode
+else
+    echo "file does not exist"
+fi

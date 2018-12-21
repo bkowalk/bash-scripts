@@ -1,0 +1,17 @@
+#!/bin/bash
+#https://pawelgrzybek.com/change-macos-user-preferences-via-command-line/
+#http://brettterpstra.com/2018/09/26/shell-tricks-toggling-dark-mode-from-terminal/
+osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
+
+#https://www.tech-otaku.com/mac/setting-desktop-image-macos-mojave-from-command-line/
+/Users/bkowalk/Library/Scripts/macos-desktop/set-desktop-mojave.sh "/Users/bkowalk/Documents/Archive - Personal/2017/Wallpaper/seceda.jpg"
+
+#https://dev.to/changoman/easy-dark-mode-for-slack-1mmn
+#https://github.com/mykeels/slack-theme-cli (installed into library folder and then included on bash profile as PATH append)
+slack-day
+
+#https://developer.chrome.com/extensions/external_extensions
+rm /Users/bkowalk/Library/Application\ Support/Google/Chrome/External\ Extensions/ookepigabmicjpgfnmncjiplegcacdbm.json
+osascript -e 'quit app "Google Chrome"' > /dev/null
+sleep 3
+open -a "Google Chrome"
