@@ -8,10 +8,4 @@ $GIT_HOME/bash/macos-desktop/set-desktop-mojave.sh "/Users/bkowalk/Documents/Arc
 
 #https://dev.to/changoman/easy-dark-mode-for-slack-1mmn
 #https://github.com/mykeels/slack-theme-cli (installed into library folder and then included on bash profile as PATH append)
-slack-night
-
-#https://developer.chrome.com/extensions/external_extensions
-echo '{"external_update_url": "https://clients2.google.com/service/update2/crx"}' > /Users/bkowalk/Library/Application\ Support/Google/Chrome/External\ Extensions/ookepigabmicjpgfnmncjiplegcacdbm.json
-osascript -e 'quit app "Google Chrome"' > /dev/null
-sleep 3
-open -a "Google Chrome"
+slack-theme night

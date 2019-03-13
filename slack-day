@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 INTEROP_FOLDER="/Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static"
 # INTEROP_FOLDER="$DIR/"
-BACKUP_FILE="$DIR/backup/ssb-interop.js"
+BACKUP_FILE="$DIR/slack-backup/ssb-interop.js"
 
 if [ -f "$BACKUP_FILE" ]
 then

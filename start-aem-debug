@@ -1,4 +1,4 @@
 #!/bin/bash
 
 mkdir /Users/bkowalk/Desktop/AEM\ is\ running
-/Applications/AEM/crx-quickstart/bin/start
+/Applications/AEM/crx-quickstart/bin/start-debug

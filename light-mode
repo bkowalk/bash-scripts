@@ -7,11 +7,5 @@ osascript -e 'tell app "System Events" to tell appearance preferences to set dar
 $GIT_HOME/bash/macos-desktop/set-desktop-mojave.sh "/Users/bkowalk/Documents/Archive - Personal/2017/Wallpaper/seceda.jpg"
 
 #https://dev.to/changoman/easy-dark-mode-for-slack-1mmn
-#https://github.com/mykeels/slack-theme-cli (installed into library folder and then included on bash profile as PATH append)
-slack-day
-
-#https://developer.chrome.com/extensions/external_extensions
-rm /Users/bkowalk/Library/Application\ Support/Google/Chrome/External\ Extensions/ookepigabmicjpgfnmncjiplegcacdbm.json
-osascript -e 'quit app "Google Chrome"' > /dev/null
-sleep 3
-open -a "Google Chrome"
+#https://github.com/mykeels/slack-theme-cli
+slack-theme day
