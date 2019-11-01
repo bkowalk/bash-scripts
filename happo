@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $GIT_HOME/pluralsight.com
+npm run happo run
