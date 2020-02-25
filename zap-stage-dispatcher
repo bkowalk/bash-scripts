@@ -2,6 +2,7 @@
 
 cd $GIT_HOME/dispatcher
 git pull
+node build-course-redirects.js 'aemdvssync_admin' $DVS_ADMIN_PASS
 tar -czf dispatcher.zip conf*
 
 echo "Copying SD1 Config"
