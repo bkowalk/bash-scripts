@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rm -rf $GIT_HOME/pluralsight.com/*/*/target

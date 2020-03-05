@@ -1,4 +1,0 @@
-#!/bin/bash
-
-rmdir /Users/bkowalk/Desktop/AEM\ is\ running
-/Applications/AEM/crx-quickstart/bin/stop
