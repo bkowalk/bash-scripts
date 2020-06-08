@@ -1,0 +1,1 @@
+function docker_clean { for i in `docker images | grep ${1:-none} | awk '{print $3}'`;do docker rmi -f $i; done; }

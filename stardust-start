@@ -1,0 +1,4 @@
+cd ~/Git/stardust
+#yarn
+#yarn boot
+yarn start

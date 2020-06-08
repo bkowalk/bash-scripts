@@ -1,0 +1,3 @@
+cd ~/Git/juno
+export $(cat .env | xargs)
+~/Git/juno/.pkg/dev/pull-database.sh
