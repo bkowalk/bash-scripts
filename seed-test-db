@@ -1,3 +1,0 @@
-cd ~/Git/juno
-export $(cat .env | xargs)
-MIX_ENV=test mix core.seeds

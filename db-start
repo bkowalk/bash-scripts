@@ -1,3 +1,8 @@
 cd ~/Git/juno
 export $(cat .env | xargs)
+~/Git/juno/.pkg/dev/pull-database.sh
 ~/Git/juno/.pkg/dev/start-database.sh
+MIX_ENV=test mix ecto.setup
+cd ~/Git/deep-impact
+mix ecto.setup
+MIX_ENV=test mix ecto.setup
