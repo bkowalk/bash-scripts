@@ -1,1 +1,0 @@
-MIX_ENV=test mix ecto.reset
