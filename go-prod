@@ -1,0 +1,2 @@
+task_id=$(aws ecs list-tasks --cluster main-cluster-prod --service-name willow-service-prod --max-items 1 | jq -r '.taskArns[0] | split(":")[-1] | split("/")[-1]')
+aws ecs execute-command --cluster main-cluster-prod --task $task_id --container willow-container-prod --interactive --command "bin/willow remote"  
