@@ -1,1 +1,0 @@
-mix format && mix credo --strict && mix dialyzer

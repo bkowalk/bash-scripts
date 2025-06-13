@@ -8,12 +8,12 @@ $SmtpPort = 587
 $EmailUsername = "bkowalk1@gmail.com"
 $EmailPassword = "your-app-password"  
 
-# Ping the server (one ping, 2s timeout)
-$ping = Test-Connection -ComputerName $HA_IP -Count 1 -Quiet
+# Health check via HTTP API (401 response is expected and means service is healthy)
+$response = Invoke-WebRequest -Uri "http://$($HA_IP):8123/api/" -TimeoutSec 10 -SkipHttpErrorCheck
+$isHealthy = ($response.StatusCode -eq 401) -or ($response.StatusCode -eq 200)
 
-if (-not $ping) {
+if (-not $isHealthy) {
     Add-Content -Path $LogFile -Value "$(Get-Date): Home assistant $HA_IP not responding. Rebooting via Kasa plug."
-
 
     # Send email notification
     try {
