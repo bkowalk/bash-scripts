@@ -1,16 +1,23 @@
-$HA_IP   = "192.168.1.215"
-$PLUG_IP = "192.168.1.123"
-$LogFile = "$env:USERPROFILE\kasa_rebooter.log"
+# Get script directory and load configuration
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ConfigFile = Join-Path $ScriptDir ".watchdog_config"
 
-# Email configuration
-$SmtpServer = "smtp.gmail.com"  
-$SmtpPort = 587
-$EmailUsername = "bkowalk1@gmail.com"
-$EmailPassword = "your-app-password"  
+if (Test-Path $ConfigFile) {
+    Get-Content $ConfigFile | ForEach-Object {
+        if ($_ -match '^([^=]+)=(.*)$') {
+            $varName = $matches[1].Trim()
+            $varValue = $matches[2].Trim().Trim('"')
+            Set-Variable -Name $varName -Value $varValue
+        }
+    }
+} else {
+    Write-Error "Configuration file not found: $ConfigFile"
+    exit 1
+}  
 
-# Health check via HTTP API (401 response is expected and means service is healthy)
-$response = Invoke-WebRequest -Uri "http://$($HA_IP):8123/api/" -TimeoutSec 10 -SkipHttpErrorCheck
-$isHealthy = ($response.StatusCode -eq 401) -or ($response.StatusCode -eq 200)
+# Health check via HTTP API
+$response = Invoke-WebRequest -Uri "http://$($HA_IP):8123/manifest.json" -TimeoutSec 5
+$isHealthy = $response.StatusCode -eq 200
 
 if (-not $isHealthy) {
     Add-Content -Path $LogFile -Value "$(Get-Date): Home assistant $HA_IP not responding. Rebooting via Kasa plug."
